@@ -1,5 +1,5 @@
 # parasrv
-Listen for commands on a unix socket and send pulses out a parallel port
+A simple parallel port server. Listen for commands on a unix socket and send pulses out a parallel port.
 
 ## Requires
 - parapin (for the parallel port)

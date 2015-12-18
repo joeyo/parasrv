@@ -1,0 +1,2 @@
+: parasrv.c |> gcc -c -Wall -std=gnu11 %f -o %o |> %B.o
+: parasrv.o |> gcc %f -o %o -lparapin |> parasrv
