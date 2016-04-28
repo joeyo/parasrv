@@ -1,2 +1,19 @@
-: parasrv.c |> gcc -c -Wall -std=gnu11 %f -o %o |> %B.o
-: parasrv.o |> gcc %f -o %o -lparapin |> parasrv
+CC = clang
+
+CCFLAGS  = -Wall -Wextra -pedantic -Wshadow -std=c11
+LDFLAGS  = -lparapin
+
+CCFLAGS += -O3 -fslp-vectorize-aggressive -march=native
+
+#CCFLAGS += -O1 -g -DDEBUG
+#CCFLAGS += -fno-inline -fno-omit-frame-pointer
+#LDFLAGS += -fno-inline -fno-omit-frame-pointer
+#CCFLAGS += -fsanitize=address
+#LDFLAGS += -fsanitize=address
+
+#!cc = |> $(CC) -c $(CCFLAGS) %f -o %o |>
+!cc = |> ^ CC %f^ $(CC) -c $(CCFLAGS) %f -o %o |>
+!ld = |> ^ LINK %o^ $(CC) %f -o %o $(LDFLAGS) |>
+
+: parasrv.c |> !cc |> %B.o
+: parasrv.o |> !ld |> parasrv
