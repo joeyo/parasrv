@@ -1,0 +1,7 @@
+include_rules
+
+OBJ = parasrv.cpp lconf.cpp
+
+: foreach $(OBJ) |> !cpp |> %B.o
+
+: runway.c |> !cc |> %B.o

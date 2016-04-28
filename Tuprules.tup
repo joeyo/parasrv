@@ -1,0 +1,23 @@
+
+CC  = clang-3.8
+CPP = clang++-3.8
+
+PKG = luajit
+
+CFLAGS  = -Wall -Wextra -pedantic -Wshadow
+CFLAGS += `pkg-config --cflags $(PKG)`
+CFLAGS += -D_XOPEN_SOURCE=700
+
+CFLAGS += -O3 -fslp-vectorize-aggressive -march=native
+#CFLAGS += -O1 -g -fno-inline -fno-omit-frame-pointer -DDEBUG
+
+CCFLAGS  = -std=c11 $(CFLAGS)
+CPPFLAGS = -std=c++11 $(CFLAGS)
+
+LFLAGS  = -lparapin
+LFLAGS += `pkg-config --libs $(PKG)`
+
+#!cc = |> ^ CC %f^ $(CC) -c $(CCFLAGS) %f -o %o |>
+!cc = |> $(CC) -c $(CCFLAGS) %f -o %o |>
+!cpp = |> ^ CPP %f^ $(CPP) -c $(CPPFLAGS) %f -o %o |>
+!ld = |> ^ LD %o^ $(CPP) %f -o %o $(LFLAGS) |>
