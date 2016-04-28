@@ -7,7 +7,7 @@ CFLAGS  = -Wall -Wextra -pedantic -Wshadow
 CFLAGS += `pkg-config --cflags $(PKG)`
 
 CFLAGS += -O3 -fslp-vectorize-aggressive -march=native
-#CFLAGS += -O1 -g -DDEBUG
+#CFLAGS += -O1 -g -fno-inline -fno-omit-frame-pointer -DDEBUG
 
 CCFLAGS = $(CFLAGS) -std=c11
 CPPFLAGS = $(CFLAGS) -std=c++11
