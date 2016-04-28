@@ -3,5 +3,5 @@ A simple parallel port server. Listen for commands on a unix socket and send pul
 
 ## Requires
 - parapin (for the parallel port)
-- liblua5.1 (for configuration)
+- luajit 2.0 (for generating pulses and configuration)
 - tup (to build)
