@@ -4,6 +4,7 @@
 *.obj
 *.elf
 parasrv
+runway
 
 # Precompiled Headers
 *.gch

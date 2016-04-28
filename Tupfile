@@ -1,2 +1,29 @@
-: parasrv.c |> gcc -c -Wall -std=gnu11 %f -o %o |> %B.o
-: parasrv.o |> gcc %f -o %o -lparapin |> parasrv
+CC  = clang-3.8
+CPP  = clang++-3.8
+
+PKG = luajit
+
+CFLAGS  = -Wall -Wextra -pedantic -Wshadow
+CFLAGS += `pkg-config --cflags $(PKG)`
+
+CFLAGS += -O3 -fslp-vectorize-aggressive -march=native
+#CFLAGS += -O1 -g -DDEBUG
+
+CCFLAGS = $(CFLAGS) -std=c11
+CPPFLAGS = $(CFLAGS) -std=c++11
+
+LFLAGS  = -lparapin
+LFLAGS += `pkg-config --libs $(PKG)`
+
+!cc = |> ^ CC %f^ $(CC) -c $(CCFLAGS) %f -o %o |>
+!cpp = |> ^ CPP %f^ $(CC) -c $(CPPFLAGS) %f -o %o |>
+!ld = |> ^ LD %o^ $(CPP) %f -o %o $(LFLAGS) |>
+
+OBJ = parasrv.cpp lconf.cpp
+
+: foreach $(OBJ) |> !cpp |> %B.o
+
+: parasrv.o lconf.o |> !ld |> parasrv
+
+: runway.c |> !cc |> %B.o
+: runway.o |> !ld |> runway
